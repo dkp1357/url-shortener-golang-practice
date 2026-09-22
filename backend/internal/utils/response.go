@@ -27,7 +27,7 @@ func WriteJSON(w http.ResponseWriter, status int, data any) {
 	_ = json.NewEncoder(w).Encode(data)
 }
 
-func SuccessResponse(w http.ResponseWriter, status int, message string, data interface{}) {
+func SuccessResponse(w http.ResponseWriter, status int, message string, data any) {
 	WriteJSON(w, status, Response{
 		Success: true,
 		Message: message,
