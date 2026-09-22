@@ -53,7 +53,7 @@ func ValidateCustomAlias(alias string) error {
 	return nil
 }
 
-func ValisateTargetURL(target string) error {
+func ValidateTargetURL(target string) error {
 	trimmed := strings.TrimSpace(target)
 	if trimmed == "" {
 		return ErrInvalidURL

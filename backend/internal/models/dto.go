@@ -25,7 +25,7 @@ type AuthResponse struct {
 // URL DTOs
 type CreateURLRequest struct {
 	OriginalURL string     `json:"original_url"`
-	CustomAlias *string    `json:"custom_alias,omitempty"`
+	CustomAlias string     `json:"custom_alias,omitempty"`
 	ExpiresAt   *time.Time `json:"expires_at,omitempty"`
 }
 

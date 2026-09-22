@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"time"
 	"url-shortener/internal/models"
-	"uuid"
+
+	"github.com/google/uuid"
 
 	"github.com/jackc/pgx/v5"
 )

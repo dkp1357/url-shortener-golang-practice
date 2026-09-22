@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"time"
 	"url-shortener/internal/models"
-	"uuid"
+
+	"github.com/google/uuid"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
@@ -171,8 +172,8 @@ func (r *URLRepository) ListByUserID(ctx context.Context, userID uuid.UUID, limi
 	return urls, totalCount, nil
 }
 
-func (r *URLRepository) IncrementClickCount(ctx context.Context, id uuid.UUID) error {
-	query := "UPDATE urls SET click_count = click_count + 1 WHERE id = $1"
-	_, err := r.db.Pool.Exec(ctx, query, id)
+func (r *URLRepository) IncrementClickCount(ctx context.Context, id uuid.UUID, count int) error {
+	query := "UPDATE urls SET click_count = click_count + $2 WHERE id = $1"
+	_, err := r.db.Pool.Exec(ctx, query, id, count)
 	return err
 }
