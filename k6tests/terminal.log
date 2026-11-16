@@ -1,0 +1,323 @@
+
+~/Study/projects/url-shortener-golang-practice/k6tests main*
+❯ k6 run load_test.js         
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: load_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 150 max VUs, 3m10s max duration (incl. graceful stop):
+INFO[0180] Test completed. Pre-seeded codes used: 10     source=console
+
+
+  █ THRESHOLDS 
+
+    http_req_duration{type:redirect}
+    ✓ 'p(95)<100' p(95)=41.66ms
+
+    http_req_duration{type:shorten}
+    ✓ 'p(95)<300' p(95)=47.06ms
+
+    http_req_failed
+    ✓ 'rate<0.05' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 261164  1176.944018/s
+    checks_succeeded...: 100.00% 261164 out of 261164
+    checks_failed......: 0.00%   0 out of 261164
+
+    ✓ redirect is 302
+    ✓ has Location header
+    ✓ shorten is 201
+    ✓ has short_code in response
+
+    CUSTOM
+    redirect_duration..............: avg=45.877082 min=30.033   med=34.483   max=29930.196 p(90)=38.769   p(95)=41.664  
+    redirect_failures..............: 0.00%  0 out of 104322
+    shorten_failures...............: 0.00%  0 out of 26260
+
+    HTTP
+    http_req_duration..............: avg=46.73ms   min=30.03ms  med=34.95ms  max=31s       p(90)=40.21ms  p(95)=43.34ms 
+      { expected_response:true }...: avg=46.73ms   min=30.03ms  med=34.95ms  max=31s       p(90)=40.21ms  p(95)=43.34ms 
+      { type:redirect }............: avg=45.87ms   min=30.03ms  med=34.48ms  max=29.93s    p(90)=38.76ms  p(95)=41.66ms 
+      { type:shorten }.............: avg=50.15ms   min=31.82ms  med=37.37ms  max=31s       p(90)=43.59ms  p(95)=47.06ms 
+    http_req_failed................: 0.00%  0 out of 130593
+    http_reqs......................: 130593 588.521581/s
+
+    EXECUTION
+    iteration_duration.............: avg=137.67ms  min=130.14ms med=135.31ms max=1.69s     p(90)=140.71ms p(95)=144.09ms
+    iterations.....................: 130582 588.472009/s
+    vus............................: 3      min=0           max=150
+    vus_max........................: 150    min=150         max=150
+
+    NETWORK
+    data_received..................: 46 MB  207 kB/s
+    data_sent......................: 14 MB  64 kB/s
+
+
+
+
+running (3m41.9s), 000/150 VUs, 130582 complete and 0 interrupted iterations
+url_service_stress ✓ [======================================] 000/150 VUs  3m0s
+
+~/Study/projects/url-shortener-golang-practice/k6tests main* 3m 42s
+❯ k6 run redirect_benchmark_optimized.js 
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: redirect_benchmark_optimized.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 500 max VUs, 1m30s max duration (incl. graceful stop):
+              * constant_request_rate: 1000.00 iterations/s for 1m0s (maxVUs: 100-500, gracefulStop: 30s)
+
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✓ 'p(95)<60' p(95)=37.42ms
+
+    http_req_failed
+    ✓ 'rate<0.01' rate=0.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 59994   997.998912/s
+    checks_succeeded...: 100.00% 59994 out of 59994
+    checks_failed......: 0.00%   0 out of 59994
+
+    ✓ status is 302
+
+    HTTP
+    http_req_duration..............: avg=34.36ms min=29.85ms med=33.78ms max=280.95ms p(90)=36.01ms p(95)=37.42ms
+      { expected_response:true }...: avg=34.36ms min=29.85ms med=33.78ms max=280.95ms p(90)=36.01ms p(95)=37.42ms
+    http_req_failed................: 0.00%  0 out of 59995
+    http_reqs......................: 59995  998.015547/s
+
+    EXECUTION
+    dropped_iterations.............: 7      0.116445/s
+    iteration_duration.............: avg=34.51ms min=29.93ms med=33.87ms max=281.02ms p(90)=36.11ms p(95)=37.56ms
+    iterations.....................: 59994  997.998912/s
+    vus............................: 33     min=31         max=40 
+    vus_max........................: 107    min=100        max=107
+
+    NETWORK
+    data_received..................: 17 MB  280 kB/s
+    data_sent......................: 4.8 MB 80 kB/s
+
+
+
+
+running (1m00.1s), 000/107 VUs, 59994 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/107 VUs  1m0s  1000.00 iters/s
+
+~/Study/projects/url-shortener-golang-practice/k6tests main* 1m 1s
+❯ k6 run cache_miss_test.js             
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: cache_miss_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 500 max VUs, 2m20s max duration (incl. graceful stop):
+              * db_cache_miss: Up to 1200.00 iterations/s for 1m50s over 4 stages (maxVUs: 100-500, gracefulStop: 30s)
+
+WARN[0037] The test has generated metrics with 100051 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details.  component=metrics-engine-ingester
+WARN[0055] The test has generated metrics with 200104 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details.  component=metrics-engine-ingester
+WARN[0079] The test has generated metrics with 400165 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details.  component=metrics-engine-ingester
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✓ 'p(95)<150' p(95)=38.03ms
+
+    http_req_failed
+    ✗ 'rate<0.02' rate=100.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 68995   627.094352/s
+    checks_succeeded...: 100.00% 68995 out of 68995
+    checks_failed......: 0.00%   0 out of 68995
+
+    ✓ returns 404 Not Found
+
+    HTTP
+    http_req_duration....: avg=34.41ms min=30.3ms  med=33.86ms max=275.95ms p(90)=36.34ms p(95)=38.03ms
+    http_req_failed......: 100.00% 68995 out of 68995
+    http_reqs............: 68995   627.094352/s
+
+    EXECUTION
+    dropped_iterations...: 4       0.036356/s
+    iteration_duration...: avg=34.61ms min=30.46ms med=34.01ms max=276.1ms  p(90)=36.51ms p(95)=38.28ms
+    iterations...........: 68995   627.094352/s
+    vus..................: 4       min=3              max=45 
+    vus_max..............: 103     min=100            max=103
+
+    NETWORK
+    data_received........: 16 MB   147 kB/s
+    data_sent............: 5.9 MB  54 kB/s
+
+
+
+
+running (1m50.0s), 000/103 VUs, 68995 complete and 0 interrupted iterations
+db_cache_miss ✓ [======================================] 000/103 VUs  1m50s  0100.27 iters/s
+ERRO[0110] thresholds on metrics 'http_req_failed' have been crossed 
+
+~/Study/projects/url-shortener-golang-practice/k6tests main* 1m 50s
+❯ k6 run stress_test.js    
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: stress_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 1000 max VUs, 3m45s max duration (incl. graceful stop):
+              * breaking_point_stress: Up to 3500.00 iterations/s for 3m15s over 5 stages (maxVUs: 150-1000, gracefulStop: 30s)
+
+WARN[0133] Insufficient VUs, reached 1000 active VUs and cannot initialize more  executor=ramping-arrival-rate scenario=breaking_point_stress
+WARN[0191] Request Failed                                error="Get \"http://74.243.216.9:8080/WE8XVKc\": request timeout"
+WARN[0191] Request Failed                                error="Get \"http://74.243.216.9:8080/WE8XVKc\": request timeout"
+WARN[0191] Request Failed                                error="Get \"http://74.243.216.9:8080/3WKiEC2\": request timeout"
+WARN[0191] Request Failed                                error="Get \"http://74.243.216.9:8080/3WKiEC2\": request timeout"
+WARN[0192] Request Failed                                error="Get \"http://74.243.216.9:8080/096fMQy\": request timeout"
+WARN[0195] Request Failed                                error="Get \"http://74.243.216.9:8080/3WKiEC2\": request timeout"
+WARN[0195] Request Failed                                error="Get \"http://74.243.216.9:8080/vfwkXfI\": request timeout"
+WARN[0213] Request Failed                                error="Get \"http://74.243.216.9:8080/hnsBz4K\": request timeout"
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✗ 'p(95)<250' p(95)=631.91ms
+
+    http_req_failed
+    ✗ 'rate<0.10' rate=18.39%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 338613 1584.943996/s
+    checks_succeeded...: 81.60% 276309 out of 338613
+    checks_failed......: 18.39% 62304 out of 338613
+
+    ✗ status is 302
+      ↳  81% — ✓ 276309 / ✗ 62304
+
+    HTTP
+    http_req_duration..............: avg=177.32ms min=30.2ms  med=40.24ms max=1m0s   p(90)=311.8ms  p(95)=631.91ms
+      { expected_response:true }...: avg=155.85ms min=30.2ms  med=37.36ms max=57.68s p(90)=288.03ms p(95)=563.43ms
+    http_req_failed................: 18.39% 62304 out of 338618
+    http_reqs......................: 338618 1584.967399/s
+
+    EXECUTION
+    dropped_iterations.............: 25134  117.644575/s
+    iteration_duration.............: avg=178.66ms min=30.29ms med=40.34ms max=1m0s   p(90)=312.8ms  p(95)=634.19ms
+    iterations.....................: 338613 1584.943996/s
+    vus............................: 1      min=1               max=1000
+    vus_max........................: 1000   min=150             max=1000
+
+    NETWORK
+    data_received..................: 97 MB  454 kB/s
+    data_sent......................: 27 MB  127 kB/s
+
+
+
+
+running (3m33.6s), 0000/1000 VUs, 338613 complete and 0 interrupted iterations
+breaking_point_stress ✓ [======================================] 0000/1000 VUs  3m15s  0500.50 iters/s
+ERRO[0213] thresholds on metrics 'http_req_duration, http_req_failed' have been crossed 
+
+~/Study/projects/url-shortener-golang-practice/k6tests main* 3m 34s
+❯ k6 run spike_test.js 
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: spike_test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 800 max VUs, 2m0s max duration (incl. graceful stop):
+              * instant_spike: Up to 2500.00 iterations/s for 1m30s over 5 stages (maxVUs: 100-800, gracefulStop: 30s)
+
+WARN[0034] Insufficient VUs, reached 800 active VUs and cannot initialize more  executor=ramping-arrival-rate scenario=instant_spike
+
+
+  █ THRESHOLDS 
+
+    http_req_duration
+    ✗ 'p(95)<300' p(95)=831.89ms
+
+    http_req_failed
+    ✗ 'rate<0.05' rate=9.24%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 113492 1190.919713/s
+    checks_succeeded...: 90.75% 103002 out of 113492
+    checks_failed......: 9.24%  10490 out of 113492
+
+    ✗ status is 302
+      ↳  90% — ✓ 103002 / ✗ 10490
+
+    HTTP
+    http_req_duration..............: avg=242.45ms min=29.81ms med=62.29ms max=56.14s p(90)=541.07ms p(95)=831.89ms
+      { expected_response:true }...: avg=236.19ms min=30.15ms med=63.31ms max=56.14s p(90)=540.79ms p(95)=791.56ms
+    http_req_failed................: 9.24%  10490 out of 113493
+    http_reqs......................: 113493 1190.930206/s
+
+    EXECUTION
+    dropped_iterations.............: 3507   36.800439/s
+    iteration_duration.............: avg=251.68ms min=29.88ms med=62.66ms max=56.14s p(90)=542.66ms p(95)=860.06ms
+    iterations.....................: 113492 1190.919713/s
+    vus............................: 1      min=1               max=799
+    vus_max........................: 800    min=100             max=800
+
+    NETWORK
+    data_received..................: 30 MB  312 kB/s
+    data_sent......................: 9.1 MB 95 kB/s
+
+
+
+
+running (1m35.3s), 000/800 VUs, 113492 complete and 0 interrupted iterations
+instant_spike ✓ [======================================] 000/800 VUs  1m30s  0100.00 iters/s
+ERRO[0095] thresholds on metrics 'http_req_duration, http_req_failed' have been crossed 

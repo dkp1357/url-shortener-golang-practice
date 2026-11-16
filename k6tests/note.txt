@@ -1,0 +1,2 @@
+Tests were ran on azure vm (CPU: AMD EPYC 7763 (2) @ 3.245GHz, RAM: 4 GB, Disk: 32 GB, ubuntu 24 lts)
+running the docker containers of application, postgres and redis
