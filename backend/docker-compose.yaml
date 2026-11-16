@@ -37,7 +37,7 @@ services:
 
   app:
     build:
-      context: ./backend
+      context: ./.
       dockerfile: Dockerfile
     restart: always
     ports:
