@@ -1,2 +1,21 @@
 Tests were ran on azure vm (CPU: AMD EPYC 7763 (2) @ 3.245GHz, RAM: 4 GB, Disk: 32 GB, ubuntu 24 lts)
 running the docker containers of application, postgres and redis
+
+// start monitoring docker stats (for future reference)
+Method 1: Clean CSV Log (Recommended for Excel / Graphs / Reports)
+
+Run this one-liner on your Azure VM inside a terminal (or inside tmux/screen) before starting your k6 test:
+
+bash
+# Print CSV headers
+echo "Timestamp,Container,CPU_Perc,Mem_Usage,Mem_Perc,Net_IO,Block_IO" > docker_stats.csv
+# Continuously log stats with a real timestamp every 1 second
+while true; do
+  ts=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  docker stats --no-stream --format "$ts,{{.Name}},{{.CPUPerc}},{{.MemUsage}},{{.MemPerc}},{{.NetIO}},{{.BlockIO}}" >> docker_stats.csv
+  sleep 1
+done
+Why this is great:
+You get clean rows with an ISO 8601 timestamp (2026-11-16T18:40:00Z).
+Easily imported into Excel, Google Sheets, or Python/Pandas to plot CPU/Memory vs. k6 stages.
+When done, just press Ctrl + C.
